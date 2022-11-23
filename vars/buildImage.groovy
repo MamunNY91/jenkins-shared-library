@@ -1,10 +1,11 @@
-def call()
+#!/usr/bin/env groovy
+def call(String imageName)
 {
     echo "Building the docker image"
     withCredentials([usernamePassword(credentialsId: 'docker-hub-cred',passwordVariable:'PASS',usernameVariable:'USER')])
             {
-                sh 'docker build -t samny91/springboot-docker-pipeline:1.2 .'
+                sh "docker build -t $imageName ."
                 sh 'echo $PASS | docker login -u $USER --password-stdin'
-                sh "docker push samny91/springboot-docker-pipeline:1.2"
+                sh "docker push $imageName"
             }
 }
